@@ -17,36 +17,62 @@
   <title>The Best Guid</title>
   <style>
     body {
-      margin: 0;
       display: flex;
+      margin: 0;
       flex-direction: column;
       height: 100vh;
       font-family: monospace;
     }
 
     .header {
+      align-items: baseline;
       background: #657a8c;
       color: #eee;
+      display: flex;
+      flex-direction: row;
       font: 2em monospace;
-
+      justify-content: space-between;
+      padding: 0 32px;
       text-align: center;
-      padding: 32px;
+    }
+    
+    .header .title {
+      font-size: 1.75em;
+      font-weight: normal;
+    }
+
+    .tab-link {
+      color: #eee;
+      text-decoration: none;
+    }
+
+    .tab-link:hover {
+      border-bottom: 2px solid #eee;
     }
 
     .content {
-      text-align: center;
-      padding: 16px;
       flex-grow: 2;
+      padding: 16px;
+      text-align: center;
+    }
+    
+    .content > * {
+      padding-bottom: 16px;
+    }
+
+    .message {
+      font-size: 1.25em;
+      
     }
 
     #guid {
-      text-align: center;
       font-size: 1.5em;
+      text-align: center;
     }
 
     .footer {
-      text-align: center;
       color: #aaa;
+      text-align: center;
     }
 
     .footer a {
@@ -91,12 +117,15 @@
 </head>
 
 <body>
-  <div class='header'>Right now, this is the best GUID!</div>
+  <div class='header'><h1 class="title">Guid.Best</h1><span><a class="tab-link" href="https://github.com/jtrinklein/guid.best">GitHub</a></span></div>
   <div class='content'>
+    <div class='message'>
+      Right now, this is the best GUID!
+    </div>
     <div class='controls'>
       <input readonly type='text' aria-label='guid value' id='guid' size=36 />
-      <button id='copy'><img height=24 width=24 src='/copy.svg' alt="copy" /></button>
-      <button id='refresh'><img height=24 width=24 src='/reload.svg' alt="new" /></button>
+      <button type="button" id='copy'><img height=24 width=24 src='/copy.svg' alt="copy" /></button>
+      <button type="button" id='refresh'><img height=24 width=24 src='/reload.svg' alt="new" /></button>
     </div>
     <div class='settings'>
       <span id='version-label'>GUID Version</span>
