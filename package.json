@@ -1,7 +1,7 @@
 {
     "name": "aws-javascript",
     "main": "index.js",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "scripts": {
         "publish:patch": "npm version patch && pulumi up",
         "publish:minor": "npm version minor && pulumi up",
