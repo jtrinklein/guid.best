@@ -42,9 +42,9 @@ for (let item of require("fs").readdirSync(siteDir)) {
 }
 
 let bucketPolicy = new aws.s3.BucketPolicy("bucketPolicy", {
-    bucket: bucket.bucket, // depends on siteBucket -- see explanation below
+    bucket: bucket.bucket, // depends on siteBucket
     policy: bucket.bucket.apply(publicReadPolicyForBucket)
-    // transform the siteBucket.bucket output property -- see explanation below
+    // transform the siteBucket.bucket output property
 });
 
 exports.websiteUrl = bucket.websiteEndpoint; // output the endpoint as a stack output

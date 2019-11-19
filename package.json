@@ -1,6 +1,12 @@
 {
     "name": "aws-javascript",
     "main": "index.js",
+    "version": "1.1.1",
+    "scripts": {
+        "publish:patch": "npm version patch && pulumi up",
+        "publish:minor": "npm version minor && pulumi up",
+        "publish:major": "npm version major && pulumi up"
+    },
     "dependencies": {
         "@pulumi/aws": "^1.8.0",
         "@pulumi/awsx": "^0.18.10",
