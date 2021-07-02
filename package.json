@@ -8,9 +8,9 @@
         "publish:major": "npm version major && pulumi up"
     },
     "dependencies": {
-        "@pulumi/aws": "^2.12.0",
-        "@pulumi/awsx": "^0.20.0",
-        "@pulumi/pulumi": "^2.6.1",
+        "@pulumi/aws": "^4.10.0",
+        "@pulumi/awsx": "^0.30.0",
+        "@pulumi/pulumi": "^3.6.0",
         "mime": "^2.4.4"
     }
 }
