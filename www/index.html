@@ -81,7 +81,7 @@
       }
 
       document.getElementById('site-version').addEventListener('change', (event) => {
-        const route = '/' + (event.target.value === 'latest' ? '' : event.target.value);
+        const route = '/' + (event.target.value === 'latest' ? '' : `${event.target.value}/index.html`);
         location.assign(route);
       });
 
