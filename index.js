@@ -2,7 +2,9 @@
 const pulumi = require("@pulumi/pulumi");
 const aws = require("@pulumi/aws");
 const awsx = require("@pulumi/awsx");
-const mime = require('mime')
+const mime = require('mime');
+const fs = require('fs');
+const path = require("path");
 
 // Create an S3 Bucket Policy to allow public read of all objects in bucket
 // This reusable function can be pulled out into its own module
@@ -30,16 +32,24 @@ const bucket = new aws.s3.Bucket("guid-best-site-bucket", {
     },
   });
 
-const siteDir = 'www';
 
-for (let item of require("fs").readdirSync(siteDir)) {
-    let filePath = require("path").join(siteDir, item);
-    let object = new aws.s3.BucketObject(item, { 
-      bucket: bucket,
-      source: new pulumi.asset.FileAsset(filePath),     // use FileAsset to point to a file
-      contentType: mime.getType(filePath) || undefined, // set the MIME type of the file
-    });
+const addFolderContents = (siteDir, prefix) => {
+  for (let item of fs.readdirSync(siteDir)) {
+      let filePath = path.join(siteDir, item);
+      let isDir = fs.lstatSync(filePath).isDirectory();
+      if (isDir) {
+        addFolderContents(filePath, item);
+        continue;
+      }
+      let itemPath = prefix ? path.join(prefix, item) : item;
+      let object = new aws.s3.BucketObject(itemPath, { 
+        bucket: bucket,
+        source: new pulumi.asset.FileAsset(filePath),     // use FileAsset to point to a file
+        contentType: mime.getType(filePath) || undefined, // set the MIME type of the file
+      });
+  }
 }
+addFolderContents('www');
 
 let bucketPolicy = new aws.s3.BucketPolicy("bucketPolicy", {
     bucket: bucket.bucket, // depends on siteBucket
