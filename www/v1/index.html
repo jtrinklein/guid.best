@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-51921880-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-51921880-2');
+  </script>
+  <!-- /gtag -->
+
+  <meta charset="utf-8">
+  <meta name="description" content="GUID generator provides the best GUID in either v4 or v1 format. Easy 1-click copy/regenerate make this a great tool for everyone.">
+  <meta name="keywords" content="guid,generator,uuid,best">
+  
+  <!-- favicon stuff -->
+  <!-- generated from https://realfavicongenerator.net -->
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <!-- /favicon stuff -->
+
+  <title>The Best Guid</title>
+  <style>
+    body {
+      display: flex;
+      margin: 0;
+      flex-direction: column;
+      height: 100vh;
+      font-family: monospace;
+    }
+
+    .header {
+      align-items: baseline;
+      background: #657a8c;
+      color: #eee;
+      display: flex;
+      flex-direction: row;
+      font: 2em monospace;
+      justify-content: space-between;
+      padding: 0 32px;
+      text-align: center;
+    }
+    
+    .header .title {
+      font-size: 1.75em;
+      font-weight: normal;
+    }
+
+    .tab-link {
+      color: #eee;
+      text-decoration: none;
+    }
+
+    .tab-link:hover {
+      border-bottom: 2px solid #eee;
+    }
+
+    .content {
+      flex-grow: 2;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .content > * {
+      padding-bottom: 16px;
+    }
+
+    .message {
+      font-size: 1.25em;
+      
+    }
+
+    #guid {
+      font-size: 1.5em;
+      text-align: center;
+    }
+
+    .footer {
+      color: #aaa;
+      text-align: center;
+    }
+
+    .footer a {
+      color: #999;
+      width: 100%;
+    }
+  </style>
+  <script src="./uuid.js"></script>
+  <script type="text/javascript">
+    function updateGuid() {
+      const fnmap = {
+        'v1': v1,
+        'v4': v4,
+      }
+      const ver = document.getElementById('version').value;
+      const nextGuid = fnmap[ver] || v4;
+      document.getElementById('guid').value = nextGuid();
+    }
+
+    window.addEventListener('load', (event) => {
+      const selectElement = document.getElementById('version');
+
+      selectElement.addEventListener('change', (event) => {
+        updateGuid();
+      });
+
+      const newButton = document.getElementById('refresh');
+      newButton.addEventListener('click', (e) => {
+        updateGuid();
+      });
+
+      const copyButton = document.getElementById('copy');
+      copyButton.addEventListener('click', () => {
+        var copyText = document.getElementById('guid');
+        copyText.select();
+        document.execCommand('copy');
+      });
+
+      updateGuid();
+    });
+  </script>
+</head>
+
+<body>
+  <div class='header'><h1 class="title"><a class="tab-link" href="/">Guid.Best</a></h1><span><a class="tab-link" href="https://github.com/jtrinklein/guid.best">GitHub</a></span></div>
+  <div class='content'>
+    <div class='message'>
+      Right now, this is the best GUID!
+    </div>
+    <div class='controls'>
+      <input readonly type='text' aria-label='guid value' id='guid' size=36 />
+      <button type="button" id='copy'><img height=24 width=24 src='/copy.svg' alt="copy" /></button>
+      <button type="button" id='refresh'><img height=24 width=24 src='/reload.svg' alt="new" /></button>
+    </div>
+    <div class='settings'>
+      <span id='version-label'>GUID Version</span>
+      <select id='version' aria-labelledby="version-label">
+        <option value='v4'>v4</option>
+        <option value='v1'>v1</option>
+      </select>
+    </div>
+  </div>
+  <div class='footer'>guids generated using <a href="https://github.com/kelektiv/node-uuid">uuid</a></div>
+</body>
+
+</html>
