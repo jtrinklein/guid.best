@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- version 2 -->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-51921880-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-51921880-2');
+  </script>
+  <!-- /gtag -->
+
+  <meta charset="utf-8">
+  <meta name="description" content="GUID generator provides the best GUID in either v4 or v1 format. Easy 1-click copy/regenerate make this a great tool for everyone.">
+  <meta name="keywords" content="guid,generator,uuid,best">
+  
+  <!-- favicon stuff -->
+  <!-- generated from https://realfavicongenerator.net -->
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <!-- /favicon stuff -->
+
+  <title>The Best Guid</title>
+  <link rel="stylesheet" href="./main.css">
+  <script src="./uuid.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('load', (event) => {
+      function updateSingle() {
+        console.log('creating a single guid');
+        document.getElementById('guid').value = uuid();
+      }
+      function updateMultiple() {
+        const formElements = document.forms[0].elements;
+        const count = parseInt(formElements['count'].value);
+        if (count > 1000 || count < 1) {
+          console.log('bad value!')
+          return;
+        }
+        const separatorType = formElements['separator'].value;
+        const separator = separatorType === 'space' ? ' ' : (separatorType === 'comma' ? ',' : '\n');
+        const quoteType = formElements['quotestyle'].value;
+        const quote = quoteType === 'single' ? "'" : (quoteType === 'double' ? '"' : '');
+        console.log(`creating ${typeof count} ${count} guids, with ${quoteType} around and ${separatorType} between`);
+        const uuidText = new Array(count).fill(0).map(() => quote + uuid() + quote).join(separator);
+        document.getElementById('guid-long').value = uuidText;
+      }
+
+      function updateGuid() {
+        const isSingleMode = document.getElementById('single-guid').checked;
+        if (isSingleMode) {
+          updateSingle();
+        } else {
+          updateMultiple();
+        }
+      }
+
+      function updateInvisibleItems() {
+        const isSingle = document.getElementById('single-guid').checked;
+        const isMulti = document.getElementById('multi-guid').checked;
+        const invisibleClass = 'invisible';
+        const guidShort = document.getElementById('guid');
+        const guidLong = document.getElementById('guid-long');
+        const settingsForm = document.getElementById('settings-form');
+        if (isSingle) {
+          guidShort.classList.remove(invisibleClass);
+          guidLong.classList.add(invisibleClass);
+          settingsForm.classList.add(invisibleClass);
+        } else if (isMulti) {
+          guidShort.classList.add(invisibleClass);
+          guidLong.classList.remove(invisibleClass);
+          settingsForm.classList.remove(invisibleClass);
+        }
+      }
+
+      document.getElementById('site-version').addEventListener('change', (event) => {
+        const route = '/' + (event.target.value === 'latest' ? '' : `${event.target.value}/index.html`);
+        location.assign(route);
+      });
+
+      document.forms[0].addEventListener('change', () => {
+        updateGuid();
+      });
+
+      document.getElementById('multi-guid').addEventListener('change', (event) => {
+        updateInvisibleItems();
+        updateGuid();
+      });
+      document.getElementById('single-guid').addEventListener('change', (event) => {
+        updateInvisibleItems();
+        updateGuid();
+      });
+
+      document.getElementById('refresh').addEventListener('click', (e) => {
+        updateGuid();
+      });
+
+      document.getElementById('copy').addEventListener('click', () => {
+        const isSingle = document.getElementById('single-guid').checked;
+        const copyText = isSingle 
+          ? document.getElementById('guid')
+          : document.getElementById('guid-long');
+        copyText.select();
+        document.execCommand('copy');
+      });
+
+      updateInvisibleItems();
+      updateGuid();
+    });
+  </script>
+</head>
+
+<body>
+  <div class='header'><h1 class="title">Guid.Best</h1><span><a class="tab-link" href="https://github.com/jtrinklein/guid.best">GitHub</a></span></div>
+  <div class='content'>
+    <div class='message'>
+      Get yourself the best GUID available!
+    </div>
+    <div class='controls'>
+      <input readonly type='text' aria-label='guid value' id='guid' size=36 />
+      <textarea class='invisible' readonly type='text' cols=75 rows=5 aria-label='guid value' id='guid-long' size=36 ></textarea>
+      <button type="button" id='copy'><img height=24 width=24 src='/copy.svg' alt="copy" /></button>
+      <button type="button" id='refresh'><img height=24 width=24 src='/reload.svg' alt="new" /></button>
+    </div>
+    <div class='settings'>
+      <div>
+        Output:
+        <label><input id='single-guid' type='radio' name='mode' value='single' checked> Single</label>
+        <label><input id='multi-guid' type='radio' name='mode' value='multiple' > Multiple</label>
+      </div>
+      <div>
+        <form id='settings-form' class='invisible'>
+          <div>
+            <label>Count: <input name='count' type='number' min=2 max=100 value=2></label>
+          </div>
+          <div>
+            Separator: 
+            <label><input name='separator' type='radio' value='newline' checked>newline</label>
+            <label><input name='separator' type='radio' value='comma' >comma</label>
+            <label><input name='separator' type='radio' value='space' >space</label>
+          </div>
+          <div>
+            Quotes: 
+            <label><input name='quotestyle' type='radio' value='none' checked>None</label>
+            <label><input name='quotestyle' type='radio' value='single' >Single</label>
+            <label><input name='quotestyle' type='radio' value='double' >Double</label>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class='footer'>
+    <div>
+      uuid generator code taken from <a href="https://github.com/kelektiv/node-uuid">node-uuid</a>.
+    </div>
+    <div>
+      Site version v2
+    </div>
+    <div>
+      View another version:
+      <select id='site-version'>
+        <option>latest</option>
+        <option>v1</option>
+        <option selected>v2</option>
+      </select>
+    </div>
+  </div>
+</body>
+
+</html>
