@@ -3,16 +3,16 @@
     "main": "index.js",
     "version": "3.0.1",
     "scripts": {
-        "publish:patch": "npm version patch && pulumi up",
-        "publish:minor": "npm version minor && pulumi up",
-        "publish:major": "npm version major && pulumi up",
+        "publish:patch": "npm run copy-site && npm version patch && pulumi up",
+        "publish:minor": "npm run copy-site && npm version minor && pulumi up",
+        "publish:major": "npm run copy-site && npm version major && pulumi up",
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "clean-static": "rimraf ./www/static",
         "copy-files": "copyfiles -u 1 ./build/**/* ./www/",
-        "copy-site": "npm run clean-static && npm run copy-files"
+        "copy-site": "npm run build && git commit -am 'build site' && npm run clean-static && npm run copy-files"
     },
     "eslintConfig": {
         "extends": [
