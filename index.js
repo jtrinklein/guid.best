@@ -42,6 +42,7 @@ const addFolderContents = (siteDir, prefix) => {
         continue;
       }
       let itemPath = prefix ? path.join(prefix, item) : item;
+      itemPath = itemPath.replace(/\\/g,'/');
       let object = new aws.s3.BucketObject(itemPath, { 
         bucket: bucket,
         source: new pulumi.asset.FileAsset(filePath),     // use FileAsset to point to a file
