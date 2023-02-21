@@ -18,7 +18,7 @@ function Footer() {
                 name='site-version'
                 defaultValue='latest'
                 options={versionOptions}
-                onChange={(e) => redirectToVersion(e.target.value)}
+                onChange={(v) => redirectToVersion(v)}
                 />
         </div>
     </div>
