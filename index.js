@@ -35,19 +35,22 @@ const bucket = new aws.s3.Bucket("guid-best-site-bucket", {
 
 const addFolderContents = (siteDir, prefix) => {
   for (let item of fs.readdirSync(siteDir)) {
-      let filePath = path.join(siteDir, item);
-      let isDir = fs.lstatSync(filePath).isDirectory();
-      if (isDir) {
-        addFolderContents(filePath, item);
-        continue;
-      }
-      let itemPath = prefix ? path.join(prefix, item) : item;
-      itemPath = itemPath.replace(/\\/g,'/');
-      let object = new aws.s3.BucketObject(itemPath, { 
-        bucket: bucket,
-        source: new pulumi.asset.FileAsset(filePath),     // use FileAsset to point to a file
-        contentType: mime.getType(filePath) || undefined, // set the MIME type of the file
-      });
+    let filePath = path.join(siteDir, item);
+    let isDir = fs.lstatSync(filePath).isDirectory();
+
+    if (isDir) {
+      const newPrefix = prefix ? path.join(prefix, item) : item;
+      addFolderContents(filePath, newPrefix);
+      continue;
+    }
+    let itemPath = prefix ? path.join(prefix, item) : item;
+    itemPath = itemPath.replace(/\\/g,'/');
+    
+    let object = new aws.s3.BucketObject(itemPath, { 
+      bucket: bucket,
+      source: new pulumi.asset.FileAsset(filePath),     // use FileAsset to point to a file
+      contentType: mime.getType(filePath) || undefined, // set the MIME type of the file
+    });
   }
 }
 addFolderContents('www');
