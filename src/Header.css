@@ -1,0 +1,25 @@
+.header {
+    align-items    : baseline;
+    background     : #657a8c;
+    color          : #eee;
+    display        : flex;
+    flex-direction : row;
+    font           : 2em monospace;
+    justify-content: space-between;
+    padding        : 0 32px;
+    text-align     : center;
+}
+
+.header .title {
+    font-size  : 1.75em;
+    font-weight: normal;
+}
+
+.tab-link {
+    color          : #eee;
+    text-decoration: none;
+}
+
+.tab-link:hover {
+    border-bottom: 2px solid #eee;
+}

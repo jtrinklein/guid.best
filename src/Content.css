@@ -1,0 +1,17 @@
+.content {
+    flex-grow : 2;
+    padding   : 16px;
+    text-align: center;
+}
+
+.content > * {
+    padding-bottom: 16px;
+}
+
+.message {
+    font-size: 1.25em;
+}
+
+.invisible {
+    display: none;
+}

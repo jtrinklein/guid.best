@@ -9,25 +9,28 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "clean-static": "rimraf ./www/static",
+        "copy-files": "copyfiles -u 1 ./build/**/* ./www/",
+        "copy-site": "npm run clean-static && npm run copy-files"
     },
     "eslintConfig": {
-      "extends": [
-        "react-app",
-        "react-app/jest"
-      ]
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
     },
     "browserslist": {
-      "production": [
-        ">0.2%",
-        "not dead",
-        "not op_mini all"
-      ],
-      "development": [
-        "last 1 chrome version",
-        "last 1 firefox version",
-        "last 1 safari version"
-      ]
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
     },
     "dependencies": {
         "@pulumi/aws": "^4.10.0",
@@ -36,10 +39,13 @@
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^13.4.0",
         "@testing-library/user-event": "^13.5.0",
+        "copyfiles": "^2.4.1",
         "mime": "^2.4.4",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-scripts": "^5.0.1",
+        "rimraf": "^4.1.2",
+        "uuid": "^9.0.0",
         "web-vitals": "^2.1.4"
     }
 }

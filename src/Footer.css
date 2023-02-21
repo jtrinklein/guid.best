@@ -1,0 +1,10 @@
+.footer {
+    color     : #aaa;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.footer a {
+    color: #999;
+    width: 100%;
+}
