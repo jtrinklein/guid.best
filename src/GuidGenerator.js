@@ -4,7 +4,7 @@ import Multiselect from "./Multiselect";
 
 import './GuidGenerator.css';
 
-const SeperatorTypes = {
+const SeparatorTypes = {
     Newline: 0,
     Space: 1,
     Comma: 2,
@@ -44,12 +44,12 @@ const quoteOptions = [
     { value: QuoteTypes.Double, text: 'Double "'},
     { value: QuoteTypes.Backtick, text: 'Backtick `'},
 ];
-const seperatorOptions = [
-    { value: SeperatorTypes.Newline, text: "Newline '\\n'"},
-    { value: SeperatorTypes.Space, text: "Space ' '"},
-    { value: SeperatorTypes.Comma, text: "Comma ','"},
-    { value: SeperatorTypes.CommaSpace, text: "Comma and Space ', '"},
-    { value: SeperatorTypes.CommaNewline, text: "Comma and Newline',\\n'"},
+const separatorOptions = [
+    { value: SeparatorTypes.Newline, text: "Newline '\\n'"},
+    { value: SeparatorTypes.Space, text: "Space ' '"},
+    { value: SeparatorTypes.Comma, text: "Comma ','"},
+    { value: SeparatorTypes.CommaSpace, text: "Comma and Space ', '"},
+    { value: SeparatorTypes.CommaNewline, text: "Comma and Newline',\\n'"},
 ];
 const predefinedOptions = [
     { value: PredefinedOutputTypes.None, text: ''},
@@ -68,7 +68,7 @@ class GuidGenerator extends React.Component {
         super(props);
         this.state = {
             genCount: 1,
-            seperator: SeperatorTypes.Newline,
+            separator: SeparatorTypes.Newline,
             quotes: QuoteTypes.None,
             predefinedFormat: PredefinedOutputTypes.None,
         }
@@ -89,18 +89,18 @@ class GuidGenerator extends React.Component {
         }
     }
 
-    getSeperator() {
-        switch (this.state.seperator) {
+    getSeparator() {
+        switch (this.state.separator) {
             default:
-            case SeperatorTypes.Newline: return '\n';
-            case SeperatorTypes.Space: return ' ';
-            case SeperatorTypes.Comma: return ',';
-            case SeperatorTypes.CommaNewline: return ',\n';
-            case SeperatorTypes.CommaSpace: return ', ';
+            case SeparatorTypes.Newline: return '\n';
+            case SeparatorTypes.Space: return ' ';
+            case SeparatorTypes.Comma: return ',';
+            case SeparatorTypes.CommaNewline: return ',\n';
+            case SeparatorTypes.CommaSpace: return ', ';
         }
     }
     
-    getJsonSeperator() {
+    getJsonSeparator() {
         switch (this.state.predefinedFormat) {
             default:
             case PredefinedOutputTypes.Json: return null;
@@ -113,15 +113,15 @@ class GuidGenerator extends React.Component {
     generateValues() {
         const {genCount, predefinedFormat} = this.state;
         const quotes = this.getQuotes();
-        const seperator =this.getSeperator();
+        const separator =this.getSeparator();
         const guids = new Array(genCount)
             .fill('').map(() => `${quotes}${uuid()}${quotes}`);
         if (predefinedFormat === PredefinedOutputTypes.None) {
             return guids
-                .join(seperator);
+                .join(separator);
         } else if (JsonPredefinedOutputs.includes(predefinedFormat)) {
-            const jsonSeperator = this.getJsonSeperator();
-            return JSON.stringify(guids, null, jsonSeperator);
+            const jsonSeparator = this.getJsonSeparator();
+            return JSON.stringify(guids, null, jsonSeparator);
         } else if (MarkdownPredefinedOutputs.includes(predefinedFormat)) {
             const isOrdered = predefinedFormat === PredefinedOutputTypes.MarkdownOrderedList;
             return guids.map((guid, i) => `${isOrdered ? `${i+1}.` : '-'} ${guid}`).join('\n')
@@ -133,11 +133,11 @@ class GuidGenerator extends React.Component {
     }
 
     render() {
-        const {genCount, seperator, quotes, predefinedFormat} = this.state;
+        const {genCount, separator, quotes, predefinedFormat} = this.state;
         const updateCount = (e) => this.setState({genCount: +e.target.value})
         const values = this.generateValues();
         const isPredefinedFormat = predefinedFormat !== PredefinedOutputTypes.None;
-        const showSeperators = !isPredefinedFormat;
+        const showSeparators = !isPredefinedFormat;
         const showQuotes = !JsonPredefinedOutputs.includes(predefinedFormat);
         return (
             <div className="generator">
@@ -155,12 +155,12 @@ class GuidGenerator extends React.Component {
                         options={quoteOptions}
                         onChange={(v) => this.setState({quotes: +v})}
                     /></div>)}
-                    { showSeperators && (<label htmlFor="seperator">Seperator</label>)}
-                    { showSeperators && (<div><Multiselect
-                        name='seperator'
-                        defaultValue={seperator}
-                        options={seperatorOptions}
-                        onChange={(v) => this.setState({seperator: +v})}
+                    { showSeparators && (<label htmlFor="separator">Separator</label>)}
+                    { showSeparators && (<div><Multiselect
+                        name='separator'
+                        defaultValue={separator}
+                        options={separatorOptions}
+                        onChange={(v) => this.setState({separator: +v})}
                     /></div>)}
                     <label htmlFor="predefined">Predefined Output Format</label>
                     <div><Multiselect
